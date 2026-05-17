@@ -1,0 +1,162 @@
+# ---------------------------------------------------------------------------
+# pyproject.toml for mcflow
+#
+# Build backend: setuptools (the most familiar choice for a first package).
+# Package metadata follows PEP 621.
+# ---------------------------------------------------------------------------
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcflow"
+version = "0.1.0"
+description = "A small, dependable library for Monte Carlo methods, MCMC, and Bayesian Monte Carlo."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Ibrahim A. Al Khurayyif", email = "ibrahimal-khurayyif@outlook.com" },
+]
+keywords = [
+    "monte-carlo",
+    "mcmc",
+    "bayesian",
+    "importance-sampling",
+    "simulation",
+    "statistics",
+    "probability",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    "numpy>=1.23",
+    "scipy>=1.10",
+    "matplotlib>=3.6",
+    "tqdm>=4.65",
+]
+
+[project.optional-dependencies]
+# Install with: pip install -e ".[dev]"
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.4",
+    "black>=24.0",
+    "mypy>=1.7",
+    "build>=1.0",
+]
+docs = [
+    "sphinx>=7.0",
+    "sphinx-rtd-theme>=2.0",
+    "myst-parser>=2.0",
+]
+
+[project.urls]
+Homepage      = "https://github.com/I-AlKhurayyif/mcflow"
+Documentation = "https://github.com/I-AlKhurayyif/mcflow#readme"
+Issues        = "https://github.com/I-AlKhurayyif/mcflow/issues"
+Source        = "https://github.com/I-AlKhurayyif/mcflow"
+
+# ---------------------------------------------------------------------------
+# Setuptools: src/ layout. The package source lives in src/mcflow.
+# ---------------------------------------------------------------------------
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mcflow*"]
+
+# ---------------------------------------------------------------------------
+# Pytest configuration.
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
+filterwarnings = [
+    "error",
+    # tqdm can warn about IProgress when run in non-Jupyter contexts; benign.
+    "ignore::DeprecationWarning:tqdm.*",
+    # SciPy occasionally emits this in older versions during quadrature.
+    "ignore::RuntimeWarning:scipy.*",
+]
+
+# ---------------------------------------------------------------------------
+# Coverage configuration.
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+source = ["mcflow"]
+branch = true
+omit = ["src/mcflow/plotting.py"]   # plots are visually validated, not unit-tested
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+show_missing = true
+precision = 1
+
+# ---------------------------------------------------------------------------
+# Black formatter.
+# ---------------------------------------------------------------------------
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+# ---------------------------------------------------------------------------
+# Ruff linter.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+exclude = ["build", "dist", ".venv"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "N",    # pep8-naming
+    "SIM",  # flake8-simplify
+]
+ignore = [
+    "E501",   # line length is enforced by black, not ruff
+    "N803",   # allow uppercase argument names (e.g., M for envelope constant)
+    "N806",   # allow uppercase variables in functions (math notation)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["N802"]    # test function names can be very long
+
+# ---------------------------------------------------------------------------
+# Mypy type checker.
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = false
+warn_unused_configs = true
+ignore_missing_imports = true
+disallow_untyped_defs = false
+check_untyped_defs = true
