@@ -262,7 +262,7 @@ $$\mathrm{ESS} = \frac{\left(\sum_{i=1}^{N} w_i\right)^2}{\sum_{i=1}^{N} w_i^2}$
 
 **Metropolis–Hastings acceptance probability** for a proposed move $x \to x'$:
 
-$$\alpha(x, x') = \min\left( 1, \; \frac{p(x') q(x \mid x')}{p(x) q(x' \mid x)} \right)$$
+$$\alpha(x, x') = \min\left\{1, \frac{p(x') q(x \mid x')}{p(x) q(x' \mid x)}\right\}$$
 
 **Hamiltonian Monte Carlo.** HMC augments the state with a momentum $\mathbf{p}$ and proposes moves by simulating Hamiltonian dynamics:
 
