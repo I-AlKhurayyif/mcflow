@@ -244,7 +244,7 @@ $$\mathrm{CI}_{1-\alpha} = \left[ \hat{\mu}_N - z_{1-\alpha/2} \cdot \mathrm{SE}
 
 **Monte Carlo integration.** For an integrable function $f$ on a domain $\Omega \subset \mathbb{R}^d$ with volume $V(\Omega)$:
 
-$$I = \int_{\Omega} f(\mathbf{x}) \, d\mathbf{x} \approx \frac{V(\Omega)}{N}\sum_{i=1}^{N} f(\mathbf{X}_i), \quad \mathbf{X}_i \sim \mathcal{U}(\Omega)$$
+$$I = \int_{\Omega} f(\mathbf{x}) d\mathbf{x} \approx \frac{V(\Omega)}{N}\sum_{i=1}^{N} f(\mathbf{X}_i), \quad \mathbf{X}_i \sim \mathcal{U}(\Omega)$$
 
 The convergence rate is independent of the dimension $d$ — Monte Carlo's defining advantage.
 
@@ -254,7 +254,7 @@ $$\hat{I}_{\mathrm{IS}} = \frac{1}{N}\sum_{i=1}^{N} f(X_i)\frac{p(X_i)}{q(X_i)},
 
 **Self-normalized importance sampling**, valid when $p$ and $q$ are known only up to a normalizing constant:
 
-$$\hat{I}_{\mathrm{SNIS}} = \frac{\sum_{i=1}^{N} f(X_i) \, w_i}{\sum_{i=1}^{N} w_i}, \quad w_i = \frac{p(X_i)}{q(X_i)}$$
+$$\hat{I}_{\mathrm{SNIS}} = \frac{\sum_{i=1}^{N} f(X_i) w_i}{\sum_{i=1}^{N} w_i}, \quad w_i = \frac{p(X_i)}{q(X_i)}$$
 
 **Effective sample size.** Diagnoses the quality of an importance-sampling proposal:
 
@@ -262,7 +262,7 @@ $$\mathrm{ESS} = \frac{\left(\sum_{i=1}^{N} w_i\right)^2}{\sum_{i=1}^{N} w_i^2}$
 
 **Metropolis–Hastings acceptance probability** for a proposed move $x \to x'$:
 
-$$\alpha(x, x') = \min\left( 1, \; \frac{p(x') \, q(x \mid x')}{p(x) \, q(x' \mid x)} \right)$$
+$$\alpha(x, x') = \min\left( 1, \; \frac{p(x') q(x \mid x')}{p(x) q(x' \mid x)} \right)$$
 
 **Hamiltonian Monte Carlo.** HMC augments the state with a momentum $\mathbf{p}$ and proposes moves by simulating Hamiltonian dynamics:
 
@@ -284,13 +284,13 @@ $$\hat{R} = \sqrt{\frac{\frac{n-1}{n}W + \frac{1}{n}B}{W}}$$
 
 where $W$ is the within-chain variance and $B$ is the between-chain variance. Values $\hat{R} \approx 1$ indicate convergence.
 
-**Bayesian Quadrature** (O'Hagan, 1991). Treat the integrand as a Gaussian process. Under an RBF kernel paired with a Gaussian measure $\pi = \mathcal{N}(b, B)$, the posterior over the integral $I = \int f(\mathbf{x}) \, \pi(\mathbf{x}) \, d\mathbf{x}$ has closed form:
+**Bayesian Quadrature** (O'Hagan, 1991). Treat the integrand as a Gaussian process. Under an RBF kernel paired with a Gaussian measure $\pi = \mathcal{N}(b, B)$, the posterior over the integral $I = \int f(\mathbf{x}) \pi(\mathbf{x}) d\mathbf{x}$ has closed form:
 
 $$\mathbb{E}[I \mid \mathcal{D}] = \mathbf{z}^{\top} K^{-1} \mathbf{y}$$
 
-$$\mathrm{Var}[I \mid \mathcal{D}] = \iint k(\mathbf{x}, \mathbf{x}') \, \pi(\mathbf{x}) \, \pi(\mathbf{x}') \, d\mathbf{x} \, d\mathbf{x}' - \mathbf{z}^{\top} K^{-1} \mathbf{z}$$
+$$\mathrm{Var}[I \mid \mathcal{D}] = \iint k(\mathbf{x}, \mathbf{x}') \pi(\mathbf{x}) \pi(\mathbf{x}') d\mathbf{x} d\mathbf{x}' - \mathbf{z}^{\top} K^{-1} \mathbf{z}$$
 
-with kernel mean embedding $z_i = \int k(\mathbf{x}, \mathbf{x}_i) \, \pi(\mathbf{x}) \, d\mathbf{x}$. This gives both a point estimate **and** a posterior variance over the integral itself — often with far fewer evaluations than ordinary Monte Carlo on smooth integrands.
+with kernel mean embedding $z_i = \int k(\mathbf{x}, \mathbf{x}_i) \pi(\mathbf{x}) d\mathbf{x}$. This gives both a point estimate **and** a posterior variance over the integral itself — often with far fewer evaluations than ordinary Monte Carlo on smooth integrands.
 
 See module docstrings for full derivations and references.
 
