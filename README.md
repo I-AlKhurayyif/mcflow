@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/I-AlKhurayyif/mcflow/main/assets/mcflow_logo.svg" alt="mcflow logo" width="520"/>
+  <img src="https://raw.githubusercontent.com/I-AlKhurayyif/mcflow/main/assets/mcflow_logo.svg?v=2" alt="mcflow logo" width="520"/>
 </p>
 
 # mcflow
